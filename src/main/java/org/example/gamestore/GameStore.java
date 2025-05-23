@@ -83,8 +83,14 @@ public class GameStore {
     }
 
     public boolean purchaseGames() {
-        // placeholder
-        return false;
+        if (cart.isEmpty()) {
+            System.out.println("The cart is empty, you have nothing to buy.");
+            return false;
+        } else {
+            System.out.println("Purchase successful! Your cart has been cleared. Your final price was: $" + calculateCartTotal());
+            cart.clear();
+            return true;
+        }
     }
 }
 

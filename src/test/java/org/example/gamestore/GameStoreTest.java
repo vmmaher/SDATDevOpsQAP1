@@ -172,4 +172,44 @@ public class GameStoreTest {
         assertEquals(expectedTotal, actualTotal);
         assertTrue(gameStore.getCart().isEmpty());
     }
+
+    // --- purchaseGames ---
+
+    @Test
+    @DisplayName("Should successfully purchase items and clear the cart.")
+    void testPurchaseGamesSuccess() {
+        gameStore.addToCart("Minecraft");
+        gameStore.addToCart("Call of Duty: Black Ops 6");
+        assertEquals(2, gameStore.getCart().size());
+
+        boolean purchased = gameStore.purchaseGames();
+
+        assertTrue(purchased);
+        assertTrue(gameStore.getCart().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should fail to purchase when the cart is empty.")
+    void testPurchaseGamesEmptyCart() {
+        // cart is empty by default
+        assertTrue(gameStore.getCart().isEmpty());
+
+        boolean purchased = gameStore.purchaseGames();
+
+        assertFalse(purchased);
+        assertTrue(gameStore.getCart().isEmpty()); // cart should remain empty
+    }
+
+    @Test
+    @DisplayName("Should correctly clear cart after purchasing multiple identical items.")
+    void testPurchaseGamesMultipleSameItem() {
+        gameStore.addToCart("Minecraft");
+        gameStore.addToCart("Minecraft");
+        assertEquals(2, gameStore.getCart().size());
+
+        boolean purchased = gameStore.purchaseGames();
+
+        assertTrue(purchased);
+        assertTrue(gameStore.getCart().isEmpty());
+    }
 }
