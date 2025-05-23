@@ -75,8 +75,11 @@ public class GameStore {
     }
 
     public double calculateCartTotal() {
-        // placeholder
-        return 0.0;
+        double total = 0.0;
+        for (Game game : cart) {
+            total += game.getPrice();
+        }
+        return total;
     }
 
     public boolean purchaseGames() {

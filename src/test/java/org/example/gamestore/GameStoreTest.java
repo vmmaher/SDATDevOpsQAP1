@@ -133,4 +133,43 @@ public class GameStoreTest {
         assertFalse(removed);
         assertTrue(gameStore.getCart().isEmpty()); // cart should remain empty
     }
+
+    // --- calculateCartTotal ---
+
+    @Test
+    @DisplayName("Should pass after confirming the prices of multiple items were added correctly")
+    void testCalculateCartTotalMultipleItems() {
+        gameStore.addToCart("Minecraft");
+        gameStore.addToCart("Call of Duty: Black Ops 6");
+
+        double expectedTotal = 49.99 + 89.99;
+        double actualTotal = gameStore.calculateCartTotal();
+
+        assertEquals(expectedTotal, actualTotal);
+        assertEquals(2, gameStore.getCart().size());
+    }
+
+    @Test
+    @DisplayName("Should pass after confirming the price of one item carries over to cart total correctly.")
+    void testCalculateCartTotalSingleItem() {
+        gameStore.addToCart("Fantasy Life i: The Girl Who Steals Time");
+
+        double expectedTotal = 79.99;
+        double actualTotal = gameStore.calculateCartTotal();
+
+        assertEquals(expectedTotal, actualTotal);
+        assertEquals(1, gameStore.getCart().size());
+    }
+
+    @Test
+    @DisplayName("Should pass after confirming the cart total shows as 0 for an empty cart.")
+    void testCalculateCartTotalEmptyCart() {
+        // cart is empty by default
+
+        double expectedTotal = 0.0;
+        double actualTotal = gameStore.calculateCartTotal();
+
+        assertEquals(expectedTotal, actualTotal);
+        assertTrue(gameStore.getCart().isEmpty());
+    }
 }
