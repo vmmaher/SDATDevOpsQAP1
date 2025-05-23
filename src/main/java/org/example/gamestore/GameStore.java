@@ -18,6 +18,7 @@ public class GameStore {
     public List<Game> getGames() {
         return games;
     }
+    public List<Game> getCart() { return cart; }
 
     public void displayGames() {
         System.out.println("Physical games currently in stock:");
@@ -52,8 +53,25 @@ public class GameStore {
     }
 
     public boolean removeFromCart(String gameTitle) {
-        // placeholder
-        return false;
+        // using optional for easier search
+        Optional<Game> gameInCartOptional = cart.stream()
+                .filter(game -> game.getName().equalsIgnoreCase(gameTitle))
+                .findFirst();
+        if (gameInCartOptional.isPresent()) {
+            Game gameToRemove = gameInCartOptional.get();
+            cart.remove(gameToRemove);
+
+            Optional<Game> gameInStoreOptional = games.stream()
+                    .filter(game -> game.getName().equalsIgnoreCase(gameTitle))
+                    .findFirst();
+
+            gameInStoreOptional.ifPresent(gameInStore -> gameInStore.setQuantity(gameInStore.getQuantity() + 1));
+            System.out.println(gameToRemove.getName() + " removed from cart.");
+            return true;
+        } else {
+            System.out.println(gameTitle + " wasn't found in your cart!");
+            return false;
+        }
     }
 
     public double calculateCartTotal() {
