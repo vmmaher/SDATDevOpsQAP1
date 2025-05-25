@@ -23,6 +23,8 @@ public class Game {
         return quantity;
     }
 
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
     public String toString() {
         return name + " - $" + price + " (" + quantity + " in stock)";
     }
